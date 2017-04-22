@@ -21,13 +21,21 @@ function drawLines(){
     toY,
 	endX,
 	endY;
-	
+	function getCanvasPosX(canvas,x){	
+		var rect = canvas.getBoundingClientRect(); 
+		return x - rect.left * (canvas.width / rect.width);
+
+	}
+	function getCanvasPosY(canvas,y){
+		var rect = canvas.getBoundingClientRect(); 
+		return  y - rect.top * (canvas.height / rect.height);
+	}
 	canvas.addEventListener("touchstart", function (e){
 		e.preventDefault();
 		
 		var touches = e.changedTouches;
-		moveX = touches[0].pageX;
-		moveY = touches[0].pageY;
+		moveX = getCanvasPosX(canvas,touches[0].pageX);
+		moveY = getCanvasPosY(canvas,touches[0].pageY);
 		
 		points.push({
 			x:moveX,
@@ -46,8 +54,8 @@ function drawLines(){
 		e.preventDefault();
 		
 		var touches = e.changedTouches;
-		endX = touches[0].pageX;
-		endY = touches[0].pageY;
+		endX = getCanvasPosX(canvas,touches[0].pageX);
+		endY = getCanvasPosY(canvas,touches[0].pageY);
 		
 	  
       cxt.fillStyle = color;
@@ -69,8 +77,9 @@ function drawLines(){
 		e.preventDefault();
 		
 		var touches = e.changedTouches;
-		toX = touches[0].pageX;
-		toY = touches[0].pageY;
+		toX = getCanvasPosX(canvas,touches[0].pageX);
+		toY = getCanvasPosY(canvas,touches[0].pageY);
+		
 		cxt.clearRect(0, 0, 600, 600);
 		cxt.beginPath();
 		cxt.moveTo(moveX, moveY);
